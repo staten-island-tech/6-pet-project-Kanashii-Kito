@@ -59,15 +59,4 @@ Jerry = Hero("Jerry", 0, ["#BlameJerry"])
 Jerry.buy({"title": "Broom", "atk": -1})
 print(Jerry.__dict__)
 
-
-
-class Jerry2:
-    def __init__(self, Jerry, idiot):
-        self.owner = Jerry
-        self.idiotPercent = idiot  # double underscore means "private"
-
-    def idiot(self, amount):
-        self.__idiotPercent += amount
-
-    def show_idiot(self):
-        print(f"{self.owner} has %{self._idiot}")
+    
