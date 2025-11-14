@@ -59,7 +59,6 @@ Jerry = Hero("Jerry", 0, ["#BlameJerry"])
 Jerry.buy({"title": "Broom", "atk": -1})
 print(Jerry.__dict__)
 
-# class Pet:
     
 
 
@@ -67,15 +66,22 @@ print(Jerry.__dict__)
 
 
 
-    
 
-class BankAccount:
-    def __init__(self, owner, balance):
-        self.owner = owner
-        self.__balance = balance  # double underscore means "private"
 
-    def deposit(self, amount):
-        self.__balance += amount
+class Pet:
+    def __init__(self, name, happiness):
+        self.name = name
+        self.__happiness = happiness  # private attribute
 
-    def show_balance(self):
-        print(f"{self.owner} has ${self.__balance}")
+    def play(self, amount):
+        """Increase happiness by a given amount."""
+        if amount > 0:
+            self.__happiness += amount
+
+    def show_happiness(self):
+        print(f"{self.name} has a happiness level of {self.__happiness}")
+
+dog = Pet("Buddy", 50)
+dog.play(20)
+dog.show_happiness()
+
