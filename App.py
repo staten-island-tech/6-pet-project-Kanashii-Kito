@@ -17,10 +17,18 @@ def isvalid (email, password):
     if " " in email:
         return "Spaces are not allowed in a email."
     char = len(password)
-    if char > 8:
+    if char < 8:
         return "You need at least 8 Characters in ur password."
+    if password.isupper:
+        return
+
+
+if (any(x.isupper() for x in s) and any(x.islower() for x in s) 
+    and any(x.isdigit() for x in s) and len(s) >= 7):
+
+
 
 
     return {'Email':email, 'Password': password}
 
-print(isvalid("test", "test"))
+print(isvalid("test@gmail.com", "test"))
