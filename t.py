@@ -37,14 +37,14 @@ class Hero:
     "Name": "Pet Insurance",
     "Cost": 99999.99,
     "Department": "Pet", 
-    "Description": "Insurance for your Pet."
+    "Description": "Insurance for your Pet so it doesn't kill you if you fail ."
 },
 
 {
     "Name": "Contract || Contract",
     "Cost": 0.00,
-    "Department": "NDC-M", 
-    "Description": "N/A."
+    "Department": "Kitt e", 
+    "Description": "Your contract with your kitty // cat."
 },
 ]
 
