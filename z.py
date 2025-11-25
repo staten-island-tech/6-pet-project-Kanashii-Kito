@@ -19,13 +19,13 @@ class Inventory:
                 del self.items[item_name]
 
     def show_inventory(self):
-        print("--- INVENTORY ---")
+        print("------ INVENTORY ------")
         if not self.items:
             print("Your inventory is empty.")
         else:
             for name, qty in self.items.items():
                 print(f"{name} x{qty}")
-        print("------------------")
+        print("-----------------------")
 
 
 class Shop:
@@ -39,16 +39,16 @@ class Shop:
         }
 
     def show_shop(self):
-        print("--- SHOP ---")
+        print("------ SHOP ------")
         for i, (item, data) in enumerate(self.store_items.items(), start=1):
             print(f"{i}. {item} - ${data['price']} ({data['category']})")
         print("0. Exit Shop")
-        print("-------------")
+        print("------------------")
 
     def buy(self, player, inventory):
         while True:
             self.show_shop()
-            choice = input("Enter number to buy (0 to exit): ")
+            choice = input("Enter number to buy (Input '0' to exit): ")
 
             if not choice.isdigit():
                 print("Please enter a valid number.")
@@ -239,8 +239,11 @@ def game():
         elif choice == "9":
             confirm = input("Are you sure you want to quit? (yes/no): ").lower()
             if confirm in ("yes", "y"):
-                print("Thanks for playing!")
+                print("Thank you for playing.")
                 break
+            else:
+                print ("")
+                continue
         elif choice == "10":
             confirm = input("Are you SURE you want to kill the cat? (yes/no): ").lower()
             if confirm in ("yes", "y"):
