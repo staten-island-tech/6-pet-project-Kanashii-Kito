@@ -1,5 +1,4 @@
 import random
-import time
 
 # ---------------------------------------------------------------------
 # INVENTORY / SHOP
@@ -253,7 +252,6 @@ def game():
         else:
             print("Invalid choice.")
 
-        time.sleep(0.5)
 
 
 game()
