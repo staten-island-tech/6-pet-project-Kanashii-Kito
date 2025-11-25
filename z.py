@@ -1,8 +1,8 @@
 import random
 
-# ---------------------------------------------------------------------------------------------------------------------------------------------------
-# INVENTORY / SHOP
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# invent/shop
+
 class Inventory:
     def __init__(self):
         self.items = {}
@@ -75,8 +75,8 @@ class Shop:
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# PET CLASS
-# --------------------------------------------------------------------------------------------------------------------------------------------------------
+# pet class
+
 class Pet:
     def __init__(self, name, happiness=100, hunger=100, hygiene=100, energy=100):
         self.name = name
@@ -103,9 +103,9 @@ class Pet:
         return self.happiness > 0 and self.hunger > 0 and self.hygiene > 0 and self.energy > 0
 
 
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# HUMAN CLASS
-# -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# hooman class
+
 class Hooman:
     def __init__(self, name, hunger=100, work=100, energy=100, money=100):
         self.name = name
@@ -117,9 +117,9 @@ class Hooman:
         self.sleep_counter = 0
 
     def statsloss(self):
-        self.energy -= random.randint(2, 6)
-        self.hunger -= random.randint(3, 8)
-        self.work -= random.randint(2, 5)
+        self.energy -= random.randint(20, 40)
+        self.hunger -= random.randint(1, 10)
+        self.work -= random.randint(20, 50)
 
     def work_action(self):
         self.work += 20
@@ -142,11 +142,12 @@ class Hooman:
         print("---------------------------")
 
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------
-# GAME LOOP
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# loop
+
 def game():
-    print("Welcome to the Cat Care Game!")
+    print("Welcome to serving cats. You better not let your cat die.")
+    print ("Each action like checking something or buying something will affect yours and your cat's stats || This is because YOUR CAT IS DEMANDING. If you neglect ur cat, you die.")
     player_name = input("Enter your name: ")
     cat_name = input("Enter your cat's name: ")
 
@@ -160,21 +161,22 @@ def game():
         cat.apply_losses()
 
         #p.stat penalties for human overuse
-        if player.work_counter > 3:
+        if player.work_counter > 7:
             cat.happiness -= 5
             cat.energy -= 5
             print(f"{cat.name} is neglected because you overworked! (-5 happiness & energy)")
-        if player.sleep_counter > 3:
+        if player.sleep_counter > 6:
             cat.hunger -= 5
             cat.hygiene -= 5
             print(f"{cat.name} is neglected because you overslept! (-5 hunger & hygiene)")
 
-        #Check pet death
+        #pet death yesno
         if not cat.is_alive():
             print(f"Your cat {cat.name} has fallen ill due to neglect. You do not deserve to live. You've died.")
             break
 
         print("--- MENU ---")
+        print ("\n")
         print("1. Show Cat Stats")
         print("2. Show Your Stats")
         print("3. Inventory")
@@ -190,12 +192,16 @@ def game():
 
         if choice == "1":
             cat.show_stats()
+
         elif choice == "2":
             player.show_stats()
+
         elif choice == "3":
             inventory.show_inventory()
+
         elif choice == "4":
             shop.buy(player, inventory)
+
         elif choice == "5":
             item_list = list(inventory.items.items())
             if not item_list:
@@ -229,13 +235,17 @@ def game():
                     inventory.remove_item(item_name)
             else:
                 print("Invalid item selection.")
+
         elif choice == "6":
             cat.happiness += 10
             print(f"You played with {cat.name}! Happiness increased.")
+
         elif choice == "7":
             player.work_action()
+
         elif choice == "8":
             player.sleep()
+
         elif choice == "9":
             confirm = input("Are you sure you want to quit? (yes/no): ").lower()
             if confirm in ("yes", "y"):
@@ -244,6 +254,7 @@ def game():
             else:
                 print ("")
                 continue
+
         elif choice == "10":
             confirm = input("Are you SURE you want to kill the cat? (yes/no): ").lower()
             if confirm in ("yes", "y"):
@@ -258,3 +269,25 @@ def game():
 
 
 game()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# examples from internet so make stuff in term to look better
+""" 
+print("First line")
+print('\n')
+print("Second line") 
+"""
