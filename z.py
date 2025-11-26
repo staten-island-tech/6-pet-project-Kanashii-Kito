@@ -29,7 +29,7 @@ class pet:
 
 # hooman class
 class hooman:
-    def __init__(self, name, hunger=100, work=100, energy=100, money=100):
+    def __init__(self, name, hunger=100, work=100, energy=100, money=50):
         self.name = name
         self.hunger = hunger
         self.work = work
@@ -43,35 +43,38 @@ class hooman:
         self.money += 25
         self.energy -= 15
         self.work_counter += 1
-        print("You worked. +$25, -15 energy.")
+        print ("You worked. +$25, -15 energy.")
 
     def sleep(self):
         self.energy += 25
         self.money -= 5
         self.sleep_counter += 1
-        print("You slept (+25 energy). Cost: $5. the day has now passed.")
+        print ("You slept (+25 energy). Cost: $5. The day has now passed.")
+        print ("Sleeping costs money because yes")
 
-# check death
-def check_death(player, cat):
-    if player.hunger <= 0 or player.energy <= 0 or player.money <= 0:
-        print("you have died due to neglecting yourself aka you being stupid and dumb.")
-        cat.show_stats()
-        print(f"the cat survived up to {cat.age_days} days.")
-        return True
-    if not cat.is_alive():
-        print(f"your cat {cat.name} has died due to you being stupid... game over.")
-        cat.show_stats()
-        print(f"{cat.name} survived up to {cat.age_days} days.")
-        return True
-    return False
+    # death
+    def check_death(player, cat):
+        if player.hunger <= 0 or player.energy <= 0 or player.money <= 0:
+            print("you have died due to neglecting yourself aka you being stupid and dumb.")
+            cat.show_stats()
+            print(f"the cat survived up to {cat.age_days} days.")
+            return True
+        if not cat.is_alive():
+            print(f"your cat {cat.name} has died due to you being stupid....")
+            print("You've also died.")
+            cat.show_stats()
+            print(f"{cat.name} survived up to {cat.age_days} days.")
+            return True
+        return False
 
 # game loop
 def game():
-    print("welcome to serving cats.")
-    print("each day you have 17 moves. sleeping will skip the rest of the day immediately.")
+    print ("Welcome to serving cats.")
+    print ("Each day you have 17 moves. Sleeping will skip the rest of the day immediately.")
+    print ("Remember to sleep as your last move or you will lose some stats.")
 
-    player_name = input("enter your name: ")
-    cat_name = input("enter your cat's name: ")
+    player_name = input("Your Name: ")
+    cat_name = input("Enter Your Cat's Name: ")
 
     player = hooman(player_name)
     cat = pet(cat_name)
@@ -90,10 +93,12 @@ def game():
         if check_death(player, cat):
             break
 
-        # overwork penalties
+        # overwork idiots
         if player.work_counter > 7:
-            cat.happiness -= 5
-            cat.energy -= 5
+            cat.happiness -= 100
+            cat.energy -= 100
+            cat.hunger -= 100
+            cat.hygiene -= 100
             print(f"{cat.name} is neglected because you overworked. (-5 happiness & energy)")
 
         if player.sleep_counter > 6:
@@ -101,6 +106,7 @@ def game():
             cat.hygiene -= 5
             print(f"{cat.name} is neglected because you overslept. (-5 hunger & hygiene)")
 
+        print('\n')
         print(f"--- menu (moves left: {moves_left}) ---")
         print("1. show cat stats (free)")
         print("2. show your stats (free)")
@@ -112,7 +118,7 @@ def game():
         print("8. work (+$25, -15 energy)")
         print("9. sleep (skip rest of day, +25 energy, -$5)")
         print("10. quit")
-        print("11. i hate cats option")
+        print("11. i hate cats")
 
         choice = input("choose option: ")
         last_action = choice
@@ -193,10 +199,10 @@ def game():
         elif choice == "11":
             confirm = input("are you sure you want to kill the cat? (yes/no): ").lower()
             if confirm in ("yes", "y"):
-                print("the cats revolt. you are vaporized.")
+                print("the cats revolt. you are dead.")
                 break
             else:
-                print("you hesitated. the cats do not forgive. you are vaporized.")
+                print("You hesitated. The cats do not forgive for your 愚蠢. You died by being killed by fluffiness from cats.")
                 break
 
         else:
@@ -206,7 +212,12 @@ def game():
         if valid_move:
             moves_left -= 1
 
-        # day logic
+        
+        
+        
+        
+        
+        # day
         if moves_left == 0:
             cat.age_days += 1
             print(f"a day has passed. your cat is now {cat.age_days} days old.")
@@ -217,6 +228,7 @@ def game():
                 print("you did not sleep at the end of the day. -5 hunger and -5 energy.")
 
             moves_left = 17
+            
             print("a new day begins.")
 
 game()
