@@ -1,112 +1,34 @@
 import random
 
-# ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# invent/shop
-
-class Inventory:
-    def __init__(self):
-        self.items = {}
-
-    def add_item(self, item_name, quantity=1):
-        if item_name not in self.items:
-            self.items[item_name] = 0
-        self.items[item_name] += quantity
-
-    def remove_item(self, item_name, quantity=1):
-        if item_name in self.items:
-            self.items[item_name] -= quantity
-            if self.items[item_name] <= 0:
-                del self.items[item_name]
-
-    def show_inventory(self):
-        print("------ INVENTORY ------")
-        if not self.items:
-            print("Your inventory is empty.")
-        else:
-            for name, qty in self.items.items():
-                print(f"{name} x{qty}")
-        print("-----------------------")
-
-
-class Shop:
-    def __init__(self):
-        self.store_items = {
-            "Basic Food": {"price": 10, "category": "food", "value": 20},
-            "Premium Food": {"price": 25, "category": "food", "value": 40},
-            "Small Toy": {"price": 15, "category": "toy", "value": 15},
-            "Large Toy": {"price": 30, "category": "toy", "value": 30},
-            "Treat Pack": {"price": 20, "category": "treat", "value": 25},
-        }
-
-    def show_shop(self):
-        print("------ SHOP ------")
-        for i, (item, data) in enumerate(self.store_items.items(), start=1):
-            print(f"{i}. {item} - ${data['price']} ({data['category']})")
-        print("0. Exit Shop")
-        print("------------------")
-
-    def buy(self, player, inventory):
-        while True:
-            self.show_shop()
-            choice = input("Enter number to buy (Input '0' to exit): ")
-
-            if not choice.isdigit():
-                print("Please enter a valid number.")
-                continue
-
-            choice = int(choice)
-            if choice == 0:
-                return
-
-            items_list = list(self.store_items.items())
-            if 1 <= choice <= len(items_list):
-                item_name, item_data = items_list[choice - 1]
-                price = item_data["price"]
-                if player.money < price:
-                    print("You don't have enough money.")
-                    continue
-
-                player.money -= price
-                inventory.add_item(item_name, 1)
-                print(f"You bought {item_name}.")
-                return
-            else:
-                print("Invalid selection. Try again.")
-
-
-# --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # pet class
-
-class Pet:
+class pet:
     def __init__(self, name, happiness=100, hunger=100, hygiene=100, energy=100):
         self.name = name
         self.happiness = happiness
         self.hunger = hunger
         self.hygiene = hygiene
         self.energy = energy
-
-    def apply_losses(self):
-        self.happiness -= random.randint(4, 10)
-        self.hunger -= random.randint(10, 20)
-        self.hygiene -= random.randint(5, 15)
-        self.energy -= random.randint(5, 15)
+        self.age_days = 0
 
     def show_stats(self):
-        print(f"--- {self.name}'s Stats ---")
-        print(f"Happiness: {self.happiness}")
-        print(f"Hunger:    {self.hunger}")
-        print(f"Hygiene:   {self.hygiene}")
-        print(f"Energy:    {self.energy}")
+        print(f"---{self.name}'s stats---")
+        print(f"age:       {self.age_days} days")
+        print(f"happiness: {self.happiness}")
+        print(f"hunger:    {self.hunger}")
+        print(f"hygiene:   {self.hygiene}")
+        print(f"energy:    {self.energy}")
         print("---------------------------")
 
     def is_alive(self):
-        return self.happiness > 0 and self.hunger > 0 and self.hygiene > 0 and self.energy > 0
+        return (
+            self.happiness > 0
+            and self.hunger > 0
+            and self.hygiene > 0
+            and self.energy > 0
+        )
 
-
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # hooman class
-
-class Hooman:
+class hooman:
     def __init__(self, name, hunger=100, work=100, energy=100, money=100):
         self.name = name
         self.hunger = hunger
@@ -116,159 +38,189 @@ class Hooman:
         self.work_counter = 0
         self.sleep_counter = 0
 
-    def statsloss(self):
-        self.energy -= random.randint(20, 40)
-        self.hunger -= random.randint(1, 10)
-        self.work -= random.randint(20, 50)
-
     def work_action(self):
         self.work += 20
         self.money += 25
         self.energy -= 15
         self.work_counter += 1
-        print(f"You worked! Money earned, energy decreased.")
+        print("You worked. +$25, -15 energy.")
 
     def sleep(self):
         self.energy += 25
+        self.money -= 5
         self.sleep_counter += 1
-        print("You slept and regained energy.")
+        print("You slept (+25 energy). Cost: $5. the day has now passed.")
 
-    def show_stats(self):
-        print(f"--- {self.name}'s Stats ---")
-        print(f"Hunger: {self.hunger}")
-        print(f"Work:   {self.work}")
-        print(f"Energy: {self.energy}")
-        print(f"Money:  {self.money}")
-        print("---------------------------")
+# check death
+def check_death(player, cat):
+    if player.hunger <= 0 or player.energy <= 0 or player.money <= 0:
+        print("you have died due to neglecting yourself aka you being stupid and dumb.")
+        cat.show_stats()
+        print(f"the cat survived up to {cat.age_days} days.")
+        return True
+    if not cat.is_alive():
+        print(f"your cat {cat.name} has died due to you being stupid... game over.")
+        cat.show_stats()
+        print(f"{cat.name} survived up to {cat.age_days} days.")
+        return True
+    return False
 
-
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# loop
-
+# game loop
 def game():
-    print("Welcome to serving cats. You better not let your cat die.")
-    print ("Each action like checking something or buying something will affect yours and your cat's stats || This is because YOUR CAT IS DEMANDING. If you neglect ur cat, you die.")
-    player_name = input("Enter your name: ")
-    cat_name = input("Enter your cat's name: ")
+    print("welcome to serving cats.")
+    print("each day you have 17 moves. sleeping will skip the rest of the day immediately.")
 
-    player = Hooman(player_name)
-    cat = Pet(cat_name)
-    inventory = Inventory()
-    shop = Shop()
+    player_name = input("enter your name: ")
+    cat_name = input("enter your cat's name: ")
+
+    player = hooman(player_name)
+    cat = pet(cat_name)
+
+    feed_cost = 10
+    toy_small_cost = 15
+    toy_large_cost = 30
+    treat_cost = 20
+    play_cost = 5
+
+    moves_left = 17
+    last_action = None
 
     while True:
-        player.statsloss()
-        cat.apply_losses()
+        # check deaths
+        if check_death(player, cat):
+            break
 
-        #p.stat penalties for human overuse
+        # overwork penalties
         if player.work_counter > 7:
             cat.happiness -= 5
             cat.energy -= 5
-            print(f"{cat.name} is neglected because you overworked! (-5 happiness & energy)")
+            print(f"{cat.name} is neglected because you overworked. (-5 happiness & energy)")
+
         if player.sleep_counter > 6:
             cat.hunger -= 5
             cat.hygiene -= 5
-            print(f"{cat.name} is neglected because you overslept! (-5 hunger & hygiene)")
+            print(f"{cat.name} is neglected because you overslept. (-5 hunger & hygiene)")
 
-        #pet death yesno
-        if not cat.is_alive():
-            print(f"Your cat {cat.name} has fallen ill due to neglect. You do not deserve to live. You've died.")
-            break
+        print(f"--- menu (moves left: {moves_left}) ---")
+        print("1. show cat stats (free)")
+        print("2. show your stats (free)")
+        print(f"3. feed cat (${feed_cost})")
+        print(f"4. small toy play (${toy_small_cost})")
+        print(f"5. large toy play (${toy_large_cost})")
+        print(f"6. give treat (${treat_cost})")
+        print(f"7. play with cat (${play_cost})")
+        print("8. work (+$25, -15 energy)")
+        print("9. sleep (skip rest of day, +25 energy, -$5)")
+        print("10. quit")
+        print("11. i hate cats option")
 
-        print("--- MENU ---")
-        print ("\n")
-        print("1. Show Cat Stats")
-        print("2. Show Your Stats")
-        print("3. Inventory")
-        print("4. Go to Shop")
-        print("5. Use an Item")
-        print("6. Play With Cat")
-        print("7. Work")
-        print("8. Sleep")
-        print("9. Quit")
-        print("10. I hate cats option.") 
-
-        choice = input("Choose option: ")
+        choice = input("choose option: ")
+        last_action = choice
+        valid_move = True
 
         if choice == "1":
             cat.show_stats()
 
         elif choice == "2":
-            player.show_stats()
+            print(f"--- {player.name}'s stats ---")
+            print(f"hunger: {player.hunger}")
+            print(f"work:   {player.work}")
+            print(f"energy: {player.energy}")
+            print(f"money:  {player.money}")
+            print("---------------------------")
 
         elif choice == "3":
-            inventory.show_inventory()
+            if player.money >= feed_cost:
+                player.money -= feed_cost
+                cat.hunger += 25
+                print("you fed the cat. +25 hunger.")
+            else:
+                print("you are too broke to feed the cat.")
+                valid_move = False
 
         elif choice == "4":
-            shop.buy(player, inventory)
+            if player.money >= toy_small_cost:
+                player.money -= toy_small_cost
+                cat.happiness += 15
+                print("you gave a small toy. +15 happiness.")
+            else:
+                print("can't afford the small toy.")
+                valid_move = False
 
         elif choice == "5":
-            item_list = list(inventory.items.items())
-            if not item_list:
-                print("Inventory is empty.")
-                continue
-            for i, (name, qty) in enumerate(item_list, start=1):
-                print(f"{i}. {name} x{qty}")
-            print("0. Cancel")
-            item_choice = input("Choose item number: ")
-            if not item_choice.isdigit():
-                continue
-            item_choice = int(item_choice)
-            if item_choice == 0:
-                continue
-            if 1 <= item_choice <= len(item_list):
-                item_name, qty = item_list[item_choice - 1]
-                data = shop.store_items.get(item_name)
-                if data:
-                    category = data["category"]
-                    value = data["value"]
-                    if category == "food":
-                        cat.hunger += value
-                        print(f"You fed {cat.name}. Hunger increased.")
-                    elif category == "toy":
-                        cat.happiness += value
-                        print(f"You played with {cat.name}. Happiness increased.")
-                    elif category == "treat":
-                        cat.happiness += value
-                        cat.hygiene += value // 4
-                        print(f"You gave a treat. Happiness + Hygiene increased.")
-                    inventory.remove_item(item_name)
+            if player.money >= toy_large_cost:
+                player.money -= toy_large_cost
+                cat.happiness += 30
+                print("you gave a large toy. +30 happiness.")
             else:
-                print("Invalid item selection.")
+                print("can't afford the large toy.")
+                valid_move = False
 
         elif choice == "6":
-            cat.happiness += 10
-            print(f"You played with {cat.name}! Happiness increased.")
+            if player.money >= treat_cost:
+                player.money -= treat_cost
+                cat.happiness += 25
+                cat.hygiene += 5
+                print("you gave a treat. +25 happiness, +5 hygiene.")
+            else:
+                print("can't afford the treat.")
+                valid_move = False
 
         elif choice == "7":
-            player.work_action()
+            if player.money >= play_cost:
+                player.money -= play_cost
+                cat.happiness += 10
+                print("you played with the cat. +10 happiness.")
+            else:
+                print("you can't even afford to play with the cat.")
+                valid_move = False
 
         elif choice == "8":
-            player.sleep()
+            player.work_action()
 
         elif choice == "9":
-            confirm = input("Are you sure you want to quit? (yes/no): ").lower()
-            if confirm in ("yes", "y"):
-                print("Thank you for playing.")
-                break
-            else:
-                print ("")
-                continue
+            player.sleep()
+            moves_left = 0
+            continue
 
         elif choice == "10":
-            confirm = input("Are you SURE you want to kill the cat? (yes/no): ").lower()
+            confirm = input("quit? (yes/no): ").lower()
             if confirm in ("yes", "y"):
-                print("The cat revolution begins! The cats rise up and you have been exterminated for your crimes. ")
+                print("thanks for playing.")
+                break
+            valid_move = False
+
+        elif choice == "11":
+            confirm = input("are you sure you want to kill the cat? (yes/no): ").lower()
+            if confirm in ("yes", "y"):
+                print("the cats revolt. you are vaporized.")
                 break
             else:
-                print("You decided not to harm the cat. But you still thought to harm us. You have been exterminated.")
+                print("you hesitated. the cats do not forgive. you are vaporized.")
                 break
+
         else:
-            print("Invalid choice.")
+            print("invalid choice.")
+            valid_move = False
 
+        if valid_move:
+            moves_left -= 1
 
+        # day logic
+        if moves_left == 0:
+            cat.age_days += 1
+            print(f"a day has passed. your cat is now {cat.age_days} days old.")
+
+            if last_action != "9":
+                player.hunger -= 5
+                player.energy -= 5
+                print("you did not sleep at the end of the day. -5 hunger and -5 energy.")
+
+            moves_left = 17
+            print("a new day begins.")
 
 game()
+
 
 
 
