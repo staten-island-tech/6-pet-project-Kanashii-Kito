@@ -52,20 +52,20 @@ class hooman:
         print ("You slept (+25 energy). Cost: $5. The day has now passed.")
         print ("Sleeping costs money because yes")
 
-    # death
-    def check_death(player, cat):
-        if player.hunger <= 0 or player.energy <= 0 or player.money <= 0:
-            print("you have died due to neglecting yourself aka you being stupid and dumb.")
-            cat.show_stats()
-            print(f"the cat survived up to {cat.age_days} days.")
-            return True
-        if not cat.is_alive():
-            print(f"your cat {cat.name} has died due to you being stupid....")
-            print("You've also died.")
-            cat.show_stats()
-            print(f"{cat.name} survived up to {cat.age_days} days.")
-            return True
-        return False
+# death
+def check_death(player, cat):
+    if player.hunger <= 0 or player.energy <= 0 or player.money <= 0:
+        print("you have died due to neglecting yourself aka you being stupid and dumb.")
+        cat.show_stats()
+        print(f"the cat survived up to {cat.age_days} days.")
+        return True
+    if not cat.is_alive():
+        print(f"your cat {cat.name} has died due to you being stupid....")
+        print("You've also died.")
+        cat.show_stats()
+        print(f"{cat.name} survived up to {cat.age_days} days.")
+        return True
+    return False
 
 # game loop
 def game():
