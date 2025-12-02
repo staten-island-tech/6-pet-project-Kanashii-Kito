@@ -64,6 +64,9 @@ class Hooman:
         self.energy -= 10
         print("You worked. +$35, -10 energy.")
 
+    def nap(self):
+        self.energy += 7
+
     def sleep(self):
         # sleep restores energy but increases hunger
         self.energy += 35
@@ -136,6 +139,8 @@ def game():
 
         # check death first
         if check_death(player, cat):
+            cat.show_stats()
+            player.show_stats()
             break
 
         # turn-based stat decay
@@ -172,8 +177,9 @@ def game():
         print (f"6. treat (${treat_cost})")
         print (f"7. play with cat (${play_cost})")
         print ("8. work (+$35)")
-        print ("9. sleep (end day)")
-        print ("10. quit")
+        print ("9. Minute Nap (+7 energy)")
+        print ("10. sleep (end day)")
+        print ("11. quit")
         print ("-------------------------------------------")
         print ("\n")
 
@@ -239,10 +245,13 @@ def game():
             player.work_action()
 
         elif choice == "9":
+            player.nap()
+
+        elif choice == "10":
             player.sleep()
             moves_left = 0  # end the day
 
-        elif choice == "10":
+        elif choice == "11":
             print("Thanks for playing")
             break
 
