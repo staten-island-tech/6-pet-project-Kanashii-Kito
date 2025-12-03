@@ -1,7 +1,5 @@
 import random
-
 # classes
-
 class Pet:
     def __init__(self, name, happiness=100, hunger=100, hygiene=100, energy=100):
         self.name = name
@@ -34,7 +32,6 @@ class Pet:
         self.hunger = max(0, min(100, self.hunger))
         self.hygiene = max(0, min(100, self.hygiene))
         self.energy = max(0, min(100, self.energy))
-
 
 class Hooman:
     def __init__(self, name, hunger=100, work=100, energy=100, money=50):
@@ -74,9 +71,7 @@ class Hooman:
         print("You slept: +35 energy, -10 hunger.")
         print("The day ends.")
 
-
 # random events for the cat
-
 def random_event(cat, human):
     event = random.randint(1, 5)
 
@@ -99,9 +94,7 @@ def random_event(cat, human):
 
     cat.statscap()
 
-
 # check if the player or cat died
-
 def check_death(player, cat):
     if player.hunger <= 0 or player.energy <= 0 or player.money < 0:
         print("You died due to neglecting yourself.")
@@ -113,9 +106,7 @@ def check_death(player, cat):
 
     return False
 
-
 # game loop
-
 def game():
     print("Welcome.")
     print("Each day has 17 moves. Sleeping ends the day immediately.")
@@ -132,6 +123,7 @@ def game():
     toy_large_cost = 15
     treat_cost = 10
     play_cost = 3
+    nap_counter = 0
 
     moves_left = 17
 
@@ -178,7 +170,7 @@ def game():
         print (f"6. treat (${treat_cost})")
         print (f"7. play with cat (${play_cost})")
         print ("8. work (+$35)")
-        print ("9. Minute Nap (+7 energy)")
+        print ("9. Tiny Nap (+7 energy)")
         print ("10. sleep (end day)")
         print ("11. quit")
         print ("-------------------------------------------")
@@ -247,6 +239,20 @@ def game():
 
         elif choice == "9":
             player.nap()
+            nap_counter+=1
+            if nap_counter == 2:
+                print ("You overslept and it's the next day.")
+                print ("Cat Stats have been changed.")
+                print ("Hunger - 20 | Happiness - 14 | Hygiene - 25 | Energy - 9")
+                cat.hunger -= 20
+                cat.happiness -= 14
+                cat.hygiene -= 25
+                cat.energy -= 9
+                player.hunger -= 40
+                player.money -= 10
+                player.energy += 1
+                moves_left = 1
+                nap_counter = 0
 
         elif choice == "10":
             player.sleep()
@@ -268,6 +274,10 @@ def game():
             cat.age_days += 1
             print(f"A day has passed. {cat.name} is now {cat.age_days} days old.")
 
+            # secondary stats cap
+            player.statscap()
+            cat.statscap()
+
             # daily allowance helps with money balance
             player.money += 5
             print("You received a daily cat-llowance: +$5")
@@ -283,9 +293,7 @@ def game():
                     print(f"{cat.name} becomes the ruler of the household... The cats wins.")
                 
                 break
-
             print("A new day begins.")
             moves_left = 17
-
 
 game()
