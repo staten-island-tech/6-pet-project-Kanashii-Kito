@@ -117,7 +117,7 @@ def check_death(player, cat):
 # game loop
 
 def game():
-    print("Welcome to Serving Cats.")
+    print("Welcome.")
     print("Each day has 17 moves. Sleeping ends the day immediately.")
 
     player_name = input("Your Name: ")
@@ -139,6 +139,7 @@ def game():
 
         # check death first
         if check_death(player, cat):
+            print ("Game Report:")
             cat.show_stats()
             player.show_stats()
             break
@@ -282,8 +283,6 @@ def game():
                     print(f"{cat.name} becomes the ruler of the household... The cats wins.")
                 
                 break
-
-
 
             print("A new day begins.")
             moves_left = 17
