@@ -34,7 +34,7 @@ class Pet:
         self.energy = max(0, min(100, self.energy))
 
 class Hooman:
-    def __init__(self, name, hunger=100, work=100, energy=100, money=50):
+    def __init__(self, name, hunger=100, work= "Do no work too much or you might die.", energy=100, money=50):
         self.name = name
         self.hunger = hunger
         self.work = work      # unchanged on purpose || do not touch future eric
@@ -56,10 +56,13 @@ class Hooman:
 
     def work_action(self):
         # work increases money at the cost of energy
-        self.work += 10
         self.money += 35
         self.energy -= 10
         print("You worked. +$35, -10 energy.")
+
+    def feed_hooman(self):
+        self.hunger += 24
+        self.money -= 
 
     def nap(self):
         self.energy += 7
