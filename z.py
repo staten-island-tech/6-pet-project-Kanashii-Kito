@@ -231,7 +231,7 @@ def game():
                 cat.happiness += 10
                 print("You played with the cat. +10 happiness.")
             else:
-                print("Too poor to play??")
+                print("Too poor to play?")
                 valid_move = False
 
         elif choice == "8":
@@ -256,6 +256,7 @@ def game():
 
         elif choice == "10":
             player.sleep()
+            valid_move=False
             moves_left = 0  # end the day
 
         elif choice == "11":
@@ -284,7 +285,7 @@ def game():
 
 
             # check for final 50/50 ending
-            if cat.age_days >= 74:
+            if cat.age_days >= 27:
                 print(f"{cat.name} has reached old age at {cat.age_days} days.")
 
                 if random.random() < 0.5:
