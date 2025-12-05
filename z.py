@@ -37,7 +37,7 @@ class Hooman:
     def __init__(self, name, hunger=100, work= "Do no work too much or you might die.", energy=100, money=80):
         self.name = name
         self.hunger = hunger
-        self.work = work      # unchanged on purpose || do not touch future eric
+        self.work = work
         self.energy = energy
         self.money = money
 
