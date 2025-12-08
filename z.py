@@ -172,11 +172,12 @@ def game():
         print (f"5. large toy (${toy_large_cost})")
         print (f"6. treat (${treat_cost})")
         print (f"7. play with cat (${play_cost})")
-        print ("8. work (+$35)")
-        print ("9. Tiny Nap (+7 energy)")
-        print ("10. sleep (end day)")
-        print ("11. quit")
-        print ("-------------------------------------------")
+        print ("8. Eat Food (-17$, +24 energy)")
+        print ("9. work (+$35)")
+        print ("10. Tiny Nap (+7 energy)")
+        print ("11. sleep (end day)")
+        print ("12. quit")
+        print ("--------------------------------")
         print ("\n")
 
         choice = input("Choose: ")
@@ -197,7 +198,7 @@ def game():
                 cat.hunger += 20
                 print("You fed the cat. +20 hunger.")
             else:
-                print("You can't afford food.")
+                print("You can't afford food. You're too broke.")
                 valid_move = False
 
         elif choice == "4":
@@ -206,7 +207,7 @@ def game():
                 cat.happiness += 15
                 print("Small toy. +15 happiness.")
             else:
-                print("Too expensive.")
+                print("Get to work, you're too poor.")
                 valid_move = False
 
         elif choice == "5":
@@ -215,7 +216,7 @@ def game():
                 cat.happiness += 25
                 print("Large toy. +25 happiness.")
             else:
-                print("Too expensive.")
+                print("Get to work, you're too poor.")
                 valid_move = False
 
         elif choice == "6":
@@ -225,7 +226,7 @@ def game():
                 cat.hygiene += 5
                 print("Treat given.+10 happiness, +5 hygiene.")
             else:
-                print("You can't afford it.")
+                print("You're broke, what makes you think you can afford to treat your pet.")
                 valid_move = False
 
         elif choice == "7":
@@ -234,13 +235,16 @@ def game():
                 cat.happiness += 10
                 print("You played with the cat. +10 happiness.")
             else:
-                print("Too poor to play?")
+                print("Too poor to play? GET TO WORK.")
                 valid_move = False
 
         elif choice == "8":
-            player.work_action()
+            player.feed_hooman()
 
         elif choice == "9":
+            player.work_action()
+
+        elif choice == "10":
             player.nap()
             nap_counter+=1
             if nap_counter == 2:
@@ -257,13 +261,13 @@ def game():
                 moves_left = 1
                 nap_counter = 0
 
-        elif choice == "10":
+        elif choice == "11":
             player.sleep()
             valid_move=False
             moves_left = 0  # end the day
 
-        elif choice == "11":
-            print("Thanks for playing")
+        elif choice == "12":
+            print("Thank you for playing")
             break
 
         else:
@@ -285,7 +289,6 @@ def game():
             # daily allowance helps with money balance
             player.money += 5
             print("You received a daily cat-llowance: +$5")
-
 
             # check for final 50/50 ending
             if cat.age_days >= 27:
