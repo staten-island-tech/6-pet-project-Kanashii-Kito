@@ -131,14 +131,12 @@ def game():
     moves_left = 17
 
     while True:
-
         # check death first
         if check_death(player, cat):
             print ("Game Report:")
             cat.show_stats()
             player.show_stats()
             break
-
         # turn-based stat decay
         player.hunger -= 1
         player.energy -= 1
