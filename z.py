@@ -16,7 +16,7 @@ class Pet:
         print(f"Hunger:    {self.hunger}")
         print(f"Hygiene:   {self.hygiene}")
         print(f"Energy:    {self.energy}")
-        print("------------------------------")
+        print("--------------------")
 
     def is_alive(self):
         return (
@@ -47,7 +47,7 @@ class Hooman:
         print(f"Work:   {self.work}")
         print(f"Energy: {self.energy}")
         print(f"Money:  {self.money}")
-        print("----------------------------")
+        print("--------------------")
 
     def statscap(self):
         # keep stats within 0 to 100 for the human
@@ -128,7 +128,7 @@ def game():
     play_cost = 3
     nap_counter = 0
 
-    moves_left = 17
+    moves_left = 9
 
     while True:
         # check death first
@@ -161,20 +161,28 @@ def game():
         if random.random() < 0.15:
             random_event(cat, player)
 
+
+
+        cat.show_stats()
+
+        print ("\n")
+        print ("\n")
+
+        player.show_stats()
+
+        print ("\n")
         print ("\n")
         print (f"---- Menu (Moves left: {moves_left}) ----")
-        print ("1. show cat stats")
-        print ("2. show your stats")
-        print (f"3. feed cat (${feed_cost})")
-        print (f"4. small toy (${toy_small_cost})")
-        print (f"5. large toy (${toy_large_cost})")
-        print (f"6. treat (${treat_cost})")
-        print (f"7. play with cat (${play_cost})")
-        print ("8. Eat Food (-17$, +24 energy)")
-        print ("9. work (+$35)")
-        print ("10. Tiny Nap (+7 energy)")
-        print ("11. sleep (end day)")
-        print ("12. quit")
+        print (f"1. feed cat (${feed_cost})")
+        print (f"2. small toy (${toy_small_cost})")
+        print (f"3. large toy (${toy_large_cost})")
+        print (f"4. treat (${treat_cost})")
+        print (f"5. play with cat (${play_cost})")
+        print ("6. Eat Food (-17$, +24 energy)")
+        print ("7. work (+$35)")
+        print ("8. Tiny Nap (+7 energy)")
+        print ("9. sleep (end day)")
+        print ("10. quit")
         print ("--------------------------------")
         print ("\n")
 
@@ -183,14 +191,6 @@ def game():
         valid_move = True
 
         if choice == "1":
-            cat.show_stats()
-            valid_move = False
-
-        elif choice == "2":
-            player.show_stats()
-            valid_move = False
-
-        elif choice == "3":
             if player.money >= feed_cost:
                 player.money -= feed_cost
                 cat.hunger += 20
@@ -199,7 +199,7 @@ def game():
                 print("You can't afford food. You're too broke.")
                 valid_move = False
 
-        elif choice == "4":
+        elif choice == "2":
             if player.money >= toy_small_cost:
                 player.money -= toy_small_cost
                 cat.happiness += 15
@@ -208,7 +208,7 @@ def game():
                 print("Get to work, you're too poor.")
                 valid_move = False
 
-        elif choice == "5":
+        elif choice == "3":
             if player.money >= toy_large_cost:
                 player.money -= toy_large_cost
                 cat.happiness += 25
@@ -217,7 +217,7 @@ def game():
                 print("Get to work, you're too poor.")
                 valid_move = False
 
-        elif choice == "6":
+        elif choice == "4":
             if player.money >= treat_cost:
                 player.money -= treat_cost
                 cat.happiness += 10
@@ -227,7 +227,7 @@ def game():
                 print("You're broke, what makes you think you can afford to treat your pet.")
                 valid_move = False
 
-        elif choice == "7":
+        elif choice == "5":
             if player.money >= play_cost:
                 player.money -= play_cost
                 cat.happiness += 10
@@ -236,13 +236,13 @@ def game():
                 print("Too poor to play? GET TO WORK.")
                 valid_move = False
 
-        elif choice == "8":
+        elif choice == "6":
             player.feed_hooman()
 
-        elif choice == "9":
+        elif choice == "7":
             player.work_action()
 
-        elif choice == "10":
+        elif choice == "8":
             player.nap()
             nap_counter+=1
             if nap_counter == 2:
@@ -259,12 +259,12 @@ def game():
                 moves_left = 1
                 nap_counter = 0
 
-        elif choice == "11":
+        elif choice == "9":
             player.sleep()
             valid_move=False
             moves_left = 0  # end the day
 
-        elif choice == "12":
+        elif choice == "10":
             print("Thank you for playing")
             break
 
@@ -278,6 +278,7 @@ def game():
         # end of day actions
         if moves_left == 0:
             cat.age_days += 1
+            player.energy = 100
             print(f"A day has passed. {cat.name} is now {cat.age_days} days old.")
 
             # secondary stats cap
@@ -299,6 +300,6 @@ def game():
                 
                 break
             print("A new day begins.")
-            moves_left = 17
+            moves_left = 9
 
 game()
