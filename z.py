@@ -112,7 +112,7 @@ def check_death(player, cat):
 # game loop
 def game():
     print("Welcome.")
-    print("Each day has 17 moves. Sleeping ends the day immediately.")
+    print(f"Each day has {moves_left} moves. Sleeping ends the day immediately.")
 
     player_name = input("Your Name: ")
     cat_name = input("Cat's Name: ")
@@ -128,7 +128,7 @@ def game():
     play_cost = 3
     nap_counter = 0
 
-    moves_left = 9
+    moves_left = 12
 
     while True:
         # check death first
@@ -300,6 +300,6 @@ def game():
                 
                 break
             print("A new day begins.")
-            moves_left = 9
+            moves_left = 12
 
 game()
